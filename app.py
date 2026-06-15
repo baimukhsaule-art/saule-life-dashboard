@@ -157,6 +157,7 @@ menu = st.sidebar.radio(
         "Сегодня",
         "Доходы",
         "Расходы",
+        "Банковские выписки",
         "Долги",
         "Вес",
         "Здоровье и настроение",
@@ -251,6 +252,23 @@ elif menu == "Расходы":
             st.success("Расход добавлен")
             st.rerun()
     st.dataframe(read_table("expenses"), use_container_width=True)
+
+elif menu == "Банковские выписки":
+    st.header("📥 Банковские выписки")
+
+    uploaded_files = st.file_uploader(
+        "Выбери выписки Excel",
+        type=["xlsx", "xls"],
+        accept_multiple_files=True
+    )
+
+    if uploaded_files:
+        for file in uploaded_files:
+            df = pd.read_excel(file)
+
+            st.subheader(file.name)
+            st.write(f"Строк: {len(df)}")
+            st.dataframe(df, use_container_width=True)
 
 elif menu == "Долги":
     st.header("📉 Долги")
